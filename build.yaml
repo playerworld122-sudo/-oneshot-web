@@ -1,0 +1,17 @@
+name: Build Web
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: mymindstorm/setup-emsdk@v11
+      - run: |
+          mkdir build-web
+          cd build-web
+          emcmake cmake .. -DPLAYER_TARGET_PLATFORM=emscripten
+          emmake make
+      - uses: actions/upload-artifact@v3
+        with:
+          name: oneshot-web
+          path: build-web/easyrpg-player.*
